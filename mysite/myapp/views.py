@@ -13,7 +13,7 @@ import datetime
 #     products = Product.objects.all()
     
 #     return render(request,'myapp/index.html',{'products':products})
-@login_required(login_url='login')  # Add this decorator to require login for accessing the view
+@login_required(login_url='login')  # require login for accessing the view
 def index(request):
     products = Product.objects.all()
     return render(request, 'myapp/index.html', {'products': products})

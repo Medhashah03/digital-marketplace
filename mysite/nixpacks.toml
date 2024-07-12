@@ -1,2 +1,2 @@
 [phases]
-start = "python3 manage.py runserver 0.0.0.0:8000"  # Adjust this command to match your project
+start = "python3 manage.py runserver"  # Adjust this command to match your project

@@ -1,0 +1,36 @@
+{% extends 'myapp/base.html' %}
+
+{% block body %}
+    <div class="container mx-auto my-8">
+        <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
+        <table class="table-auto w-full border-collapse">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2 border">Order ID</th>
+                    <th class="px-4 py-2 border">Product</th>
+                    <th class="px-4 py-2 border">Customer Email</th>
+                    <th class="px-4 py-2 border">Amount</th>
+                    <th class="px-4 py-2 border">Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td class="px-4 py-2 border">{{ order.id }}</td>
+                        <td class="px-4 py-2 border">{{ order.product.name }}</td>
+                        <td class="px-4 py-2 border">{{ order.customer_email }}</td>
+                        <td class="px-4 py-2 border">{{ order.amount }}</td>
+                        <td class="px-4 py-2 border">{{ order.has_paid }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-4 py-2 border text-center">No orders found.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="mt-4">
+            <p class="font-semibold">Total Order Amount: {{ order_total.amount__sum }}</p>
+        </div>
+    </div>
+{% endblock %}

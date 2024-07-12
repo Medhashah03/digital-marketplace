@@ -1,18 +1,19 @@
-from django.shortcuts import render,get_object_or_404,reverse,redirect
+from django.shortcuts import render,get_object_or_404,redirect
+#404 sends a database obj or returns an error  , redirect , used after form submission to redirect the user.
+#import models
 from .models import Product,OrderDetail
 from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt 
+from django.views.decorators.csrf import csrf_exempt   #for post req
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse,HttpResponseNotFound
 import stripe,json
 from .forms import ProductForm,UserRegistrationForm
 from django.db.models import Sum
 import datetime
-# Create your views here.
-# def index(request):
-#     products = Product.objects.all()
-    
-#     return render(request,'myapp/index.html',{'products':products})
+from django.contrib.admin.views.decorators import staff_member_required  # Add this import
+from django.contrib import messages
+
+
 @login_required(login_url='login')  # require login for accessing the view
 def index(request):
     products = Product.objects.all()
@@ -92,14 +93,12 @@ def payment_failed_view(request):
         
 #     product_form = ProductForm()
 #     return render(request, 'myapp/create_product.html',{'product_form':product_form})
-from django.contrib.admin.views.decorators import staff_member_required  # Add this import
-from django.contrib import messages
 
 @login_required(login_url='login')
-@staff_member_required  # Add this decorator to restrict access to staff/admin only
+@staff_member_required  # to restrict access to staff/admin only
 def create_product(request):
-    if not request.user.is_staff:  # Check if user is not admin
-        messages.error(request, 'You must log in as an admin to create a product.')
+    if not request.user.is_staff:  # check if user is not admin
+        messages.error(request, 'Please log in as an admin to create a product.')
         return redirect('login')
 
     if request.method == 'POST':
